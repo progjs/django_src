@@ -1,0 +1,11 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h2>New content</h2>
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+<!--        .as_p: method를 post로 요청-->
+        <button type="submit" class="save btn btn-info">Save</button>
+    </form>
+{% endblock %}
