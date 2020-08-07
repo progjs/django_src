@@ -33,6 +33,12 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def approved_comments(self):
+        return self.comments.filter(approved_comment=True)
+
+    def total_comments(self):
+        return self.comments
+
 # Post에 달리는 댓글
 class Comment(models.Model):
     # post 정보
@@ -48,3 +54,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, Comment
 
 # Validator 함수 정의
 # title 입력필드의 길이 체크 < 3
@@ -18,3 +18,9 @@ class PostModelForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('title', 'text',) # tuple
+
+# ModelForm을 상속받은 Comment form 클래스 선언
+class CommentModelForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('author', 'text',)

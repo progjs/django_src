@@ -4,13 +4,14 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required # 로그인 데코레이터
 
-from .models import Post
-from .forms import PostModelForm, PostForm
+from .models import Post, Comment
+from .forms import PostModelForm, PostForm, CommentModelForm
 
 # Create your views here.
 # Post 목록
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    print('총 게시글 수: ', len(posts)) # published_date가 설정되어있지 않으면 화면에 나오지 않는다.
     return render(request, 'blog/post_list.html', {'posts': posts})
     # name = 'django'
     # return HttpResponse('''<h2>Post List</h2>
@@ -67,3 +68,33 @@ def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
     return redirect('post_list')
+
+# Comment 등록
+def add_comment_to_post(request, pk):
+    print(pk)
+    post = get_object_or_404(Post, pk=pk)
+    print(post)
+    if request.method == "POST":
+        form = CommentModelForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = CommentModelForm()
+    return render(request, 'blog/add_comment_to_post.html', {'form': form})
+
+# 댓글 승인, 삭제
+@login_required
+def comment_approve(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.approve()
+    return redirect('post_detail', pk=comment.post.pk)
+
+@login_required
+def comment_remove(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    post_pk = comment.post.pk
+    comment.delete()
+    return redirect('post_detail', pk=post_pk)

@@ -8,6 +8,9 @@
             <div class="date">
                 <p>Published : {{ post.published_date }}</p>
             </div>
+            <a class="comment-count" href="{% url 'post_detail' pk=post.pk %}">
+                <!-- 승인된 댓글수만 나온다.               -->
+                Comments: {{ post.approved_comments.count }} / {{ post.total_comments.count }}</a>
         </div>
     {% empty %}
         <li>Sorry, no athletes in this list.</li>
