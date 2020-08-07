@@ -33,3 +33,18 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+# Post에 달리는 댓글
+class Comment(models.Model):
+    # post 정보
+    post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments')
+    author = models.CharField(max_length=100) # 댓글작성자
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+    approved_comment = models.BooleanField(default=False) # 댓글 승인여부
+
+    def approve(self): # 댓글 승인여부 설정
+        self.approved_comment = True
+        self.save()
+
+    def __str__(self):
+        return self.text

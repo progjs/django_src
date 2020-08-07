@@ -1,0 +1,24 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    {% if form.errors %}
+        <p>이름과 비밀번호가 일치하지 않습니다. 다시 시도해주세요.</p>
+    {% endif %}
+
+    <form class="login-form" method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <table class="table table-hover">
+            <tr>
+                <td>{{ form.username.label_tag }}</td><td>{{ form.username }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.password.label_tag }}</td><td>{{ form.password }}</td>
+            </tr>
+        </table>
+
+        <input type="submit" value="로그인" class="btn btn-success">
+<!--        next: 로그인페이지로 들어올때, login url뒤에 붙어있던 next변수 안에 담긴 path로 redirect한다.
+                    hidden type이라서 따로 data를 담을 변수명을 지정해줘야하는데, next가 약속한 이름.-->
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+{% endblock %}

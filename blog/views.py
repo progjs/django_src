@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required # 로그인 데코레이터
 
 from .models import Post
 from .forms import PostModelForm, PostForm
@@ -21,6 +22,7 @@ def post_detail(request, pk):
     return render(request, 'blog/post_detail.html', {'post': post})
 
 # Post 등록
+@login_required
 def post_new(request): # 주석은 modelform으로 한 경우 (주석아닌건 PostForms로)
     if request.method == 'POST':
         # form에 data를 입력한 후 save btn을 클릭했을때(등록 요청 시)
@@ -42,6 +44,7 @@ def post_new(request): # 주석은 modelform으로 한 경우 (주석아닌건 P
     return render(request, 'blog/post_edit.html', {'form': form}) # else면 그 form에 계속 머물러있는다.
 
 # Post 수정
+@login_required
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk) # DB에서 pk에 매칭되는 Post 객체를 가져온다.
     if request.method == 'POST':
@@ -59,6 +62,7 @@ def post_edit(request, pk):
     return render(request, 'blog/post_edit.html', {'form': form})
 
 # Post 삭제
+@login_required
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()

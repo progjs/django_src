@@ -7,15 +7,18 @@
                 {{ post.published_date }}
             </div>
         {% endif %}
-<!--        urls.py에서 path설정한 후에 href에 추가 -->
-        <a class='btn btn-default' href="{% url 'post_edit' pk=post.pk %}">
-<!--    a tag에 class로 btn선언한 이유: glyphicon을 button처럼 보이게 하려고        -->
-          <span class="glyphicon glyphicon-pencil"></span>
-        </a>
-        <a class='btn btn-default' href="{% url 'post_remove' pk=post.pk %}">
-<!--    a tag에 class로 btn선언한 이유: glyphicon을 button처럼 보이게 하려고        -->
-          <span class="glyphicon glyphicon-trash"></span>
-        </a>
+
+        {% if user.is_authenticated %}
+    <!--        urls.py에서 path설정한 후에 href에 추가 -->
+            <a class='btn btn-default' href="{% url 'post_edit' pk=post.pk %}">
+    <!--    a tag에 class로 btn선언한 이유: glyphicon을 button처럼 보이게 하려고        -->
+              <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+            <a class='btn btn-default' href="{% url 'post_remove' pk=post.pk %}">
+    <!--    a tag에 class로 btn선언한 이유: glyphicon을 button처럼 보이게 하려고        -->
+              <span class="glyphicon glyphicon-trash"></span>
+            </a>
+        {% endif %}
         <h1>{{ post.title }}</h1>
         <p>{{ post.text|linebreaksbr }}</p>
     </div>

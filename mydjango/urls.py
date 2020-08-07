@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views as auth_views # 로그인
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),
+    # login url(LoginView 모듈함수 사용) /accounts/login/은 약속! login이름을 form tag에서 사용
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('accounts/logout/', auth_views.LogoutView.as_view(), {'next_page': None}, name='logout')
 ]
 '''
 blog app에 관련된 url은 blog/urls.py에서 관리하고,

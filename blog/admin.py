@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post
+from .models import Post, Comment
 
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
@@ -15,4 +15,4 @@ class PostAdmin(admin.ModelAdmin):
 
 # 관리자 페이지에서 만든 모델을 보기위해 Post model을 등록
 admin.site.register(Post, PostAdmin)
-
+admin.site.register(Comment)

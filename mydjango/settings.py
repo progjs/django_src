@@ -121,4 +121,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
+# 최상위 index 레벨에서 로그인된다.
+LOGIN_REDIRECT_URL = '/'
 
